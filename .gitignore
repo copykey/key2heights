@@ -210,3 +210,8 @@ pip-selfcheck.json
 
 
 # End of https://www.gitignore.io/api/python,pycharm
+
+# Any media files that may store key data
+*.mp4
+*.jpg
+*.png
