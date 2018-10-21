@@ -8,6 +8,8 @@ def list_intersection_len_2(list1, list2):
 	ret = []
 	if list1[0] in list2:
 		ret.append(list1[0])
+	if list1[0] == list1[1]:
+		return ret
 	if list1[1] in list2:
 		ret.append(list1[1])
 	return ret
@@ -46,10 +48,8 @@ def normalize_points(contour_orig):
 	top_rights = list_intersection_len_2(top, right)
 	bottom_lefts = list_intersection_len_2(bottom, left)
 	bottom_rights = list_intersection_len_2(bottom, right)
-	assert(len(top_lefts) == 1)
-	assert(len(top_rights) == 1)
-	assert(len(bottom_lefts) == 1)
-	assert(len(bottom_rights) == 1)
+	if len(top_lefts) != 1 or len(top_rights) != 1 or len(bottom_lefts) != 1 or len(bottom_rights) != 1:
+		return None #we've found points which cannot be normalized
 	return [bottom_lefts[0], bottom_rights[0], top_lefts[0], top_rights[0]]
 
 #loads in a color image. returns a tuple containing the image with the key and then the image with stuff drawn
@@ -89,7 +89,11 @@ def process(img_c):
 		#warp
 		if len(approx) != 4:
 			continue
-		pts1 = np.float32(normalize_points(approx))
+		normalized = normalize_points(approx)
+		if normalized == None:
+			#two of the points are the same or weird crap like that. bad news.
+			continue
+		pts1 = np.float32(normalized)
 		new_width = h*2 #calculate new based on knowledge that width of rectangle is twice its height
 		new_height = h
 		pts2 = np.float32([[0, new_height], [new_width, new_height], [0, 0], [new_width, 0]])
