@@ -58,7 +58,8 @@ def process(img_c):
 	height, width = img.shape
 	img_res = img_c.copy()
 
-	ret,thresh1 = cv2.threshold(img,127,255,cv2.THRESH_BINARY)
+	#ret,thresh1 = cv2.threshold(img,90,255,cv2.THRESH_BINARY)
+	thresh1 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
 
 	_,contours,_ = cv2.findContours(thresh1,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
 	for cnt in contours:
