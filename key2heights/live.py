@@ -1,0 +1,19 @@
+import cv2
+import find_rectangle
+
+video = cv2.VideoCapture(0)
+
+while(True):
+	ret, frame = cap.read()
+	if ret == False:
+		break
+	success, key, drawn = find_rectangle.process(frame)
+	if success:
+		cv2.imshow("key", key)
+	cv2.imshow("drawn", drawn)
+	if cv2.waitKey(1) & 0xFF == ord('q'):
+		break
+
+cap.release()
+cv2.destroyAllWindows()
+
