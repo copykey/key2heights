@@ -1,7 +1,7 @@
 import cv2
 import find_rectangle
 
-video = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 
 while(True):
 	ret, frame = cap.read()
